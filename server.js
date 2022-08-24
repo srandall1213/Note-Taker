@@ -4,23 +4,24 @@ const path = require("path");
 const fs = require("fs");
 
 //Server
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const app = express();
 
+//Middleware for parsing JSON and urlencoded form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//Middleware
+//Middleware for the static public files
 app.use(express.static('public'));
 
 //HTML ROUTES//
 
-//GET '/notes' returns notes.html 
+//GET "/notes" returns notes.html 
 app.get("/notes", (req, res) => {
   res.sendFile(path.join(__dirname, "./public/notes.html"))
 });
 
-//GET * returns index.html
+//GET "*" returns index.html
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./public/index.html"))
 })
@@ -33,7 +34,9 @@ app.get("*", (req, res) => {
 // and then return the new note to the client. You'll need to find a way to give each note a unique id 
 //when it's saved (look into npm packages that could do this for you).
 
-//DELETE
+//DELETE /api/notes/:id should receive a query parameter that contains the id of a note to delete. 
+//To delete a note, you'll need to read all notes from the db.json file, remove the note with the 
+//given id property, and then rewrite the notes to the db.json file.
 
 //Listening
 app.listen(PORT, () =>
