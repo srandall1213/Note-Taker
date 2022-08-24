@@ -13,5 +13,6 @@ I would like to add functionality to the trash can icon. I will do this through 
 ![Note-Taker](./images/screenshot.png)
 
 ## Link to Deployed Application
+https://note-taker-challenge-9.herokuapp.com/
 
 
