@@ -16,11 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 //Middleware for the static public files
 app.use(express.static('public'));
 
-// GET Route returns homepage
-app.get('/', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/index.html'))
-);
-
+//HTML ROUTE//
 //GET "/notes" returns notes.html
 app.get("/notes", (req, res) => {
   res.sendFile(path.join(__dirname, "/public/notes.html"))
@@ -28,8 +24,6 @@ app.get("/notes", (req, res) => {
 
 // Promise version of fs.readFile
 const readFromFile = util.promisify(fs.readFile);
-
-//API ROUTES//
 
 //Function to write data to the JSON file given a destination and some content
 const writeToFile = (destination, content) =>
@@ -50,15 +44,16 @@ const appendNote = (content, file) => {
   });
 };
 
-//GET /api/notes should read the db.json file and return all saved notes as JSON
+//API ROUTES//
+
+//GET "/api/notes" should read the db.json file and return all saved notes as JSON
 app.get("/api/notes", (req, res) => {
   console.info(`${req.method} request received to add a note`);
   readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
-//POST /api/notes should receive a new note to save on the request body, add it to the db.json file, 
-// and then return the new note to the client. You'll need to find a way to give each note a unique id 
-//when it's saved (look into npm packages that could do this for you).
+//POST "/api/notes" should receive a new note to save on the request body, add it to the db.json file, 
+// and then return the new note to the client. Gives each note a unique id when it's saved.
 app.post('/api/notes', (req, res) => {
   console.info(`${req.method} request received to add a note`);
 
@@ -80,10 +75,12 @@ app.post('/api/notes', (req, res) => {
   }
 });
 
+//FUTURE DEVELOPMENT
 //DELETE /api/notes/:id should receive a query parameter that contains the id of a note to delete. 
 //To delete a note, you'll need to read all notes from the db.json file, remove the note with the 
 //given id property, and then rewrite the notes to the db.json file.
 
+//HTML ROUTE//
 //GET wildcard returns index.html
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./public/index.html"))
