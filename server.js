@@ -19,18 +19,6 @@ app.use(express.static('public'));
 // Promise version of fs.readFile
 const readFromFile = util.promisify(fs.readFile);
 
-//HTML ROUTES//
-
-//GET "/notes" returns notes.html 
-app.get("/notes", (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/notes.html"))
-});
-
-//GET "*" returns index.html
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/index.html"))
-})
-
 //API ROUTES//
 
 //Function to write data to the JSON file given a destination and some content
@@ -80,10 +68,23 @@ app.post('/api/notes', (req, res) => {
     res.error('Error in adding note');
   }
 });
+
+//HTML ROUTES//
+
+//GET "/notes" returns notes.html 
+app.get("/notes", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/notes.html"))
+});
+
+//GET "*" returns index.html
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/index.html"))
+})
  
 //DELETE /api/notes/:id should receive a query parameter that contains the id of a note to delete. 
 //To delete a note, you'll need to read all notes from the db.json file, remove the note with the 
 //given id property, and then rewrite the notes to the db.json file.
+
 
 //Listening
 app.listen(PORT, () =>
